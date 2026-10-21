@@ -1,0 +1,4 @@
+interface:
+  display_name: "直白技术分享"
+  short_description: "用具体处境、决策细节和适用条件讲清技术判断，让中文分享直接自然"
+  default_prompt: "用 $plainspoken-tech-talk 整理这份内容，根据主题和听众选择开场，用具体细节讲清判断依据，让案例服务于主线。"
