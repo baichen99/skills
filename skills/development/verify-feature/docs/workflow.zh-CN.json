@@ -1,0 +1,149 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "从需求到证据：前端验证",
+    "locale": "zh-CN",
+    "quality_profile": "showcase"
+  },
+  "lanes": [
+    {
+      "id": "verification",
+      "label": "验证主线"
+    },
+    {
+      "id": "isolation",
+      "label": "接口隔离"
+    }
+  ],
+  "mainPath": [
+    "expectation",
+    "cases",
+    "midscene",
+    "assertions",
+    "evidence",
+    "report"
+  ],
+  "nodes": [
+    {
+      "id": "expectation",
+      "lane": "verification",
+      "col": 0,
+      "type": "external",
+      "label": "明确预期",
+      "sublabel": "需求 / 设计 / 用户要求"
+    },
+    {
+      "id": "cases",
+      "lane": "verification",
+      "col": 1,
+      "type": "backend",
+      "label": "绑定用例",
+      "sublabel": "稳定 ID + 通过条件"
+    },
+    {
+      "id": "midscene",
+      "lane": "verification",
+      "col": 2,
+      "type": "frontend",
+      "label": "Midscene",
+      "sublabel": "实际交互 + 视觉判断"
+    },
+    {
+      "id": "assertions",
+      "lane": "verification",
+      "col": 3,
+      "type": "backend",
+      "label": "精确断言",
+      "sublabel": "参数 / ID / 次数 / 状态"
+    },
+    {
+      "id": "evidence",
+      "lane": "verification",
+      "col": 4,
+      "type": "database",
+      "label": "检查证据",
+      "sublabel": "截图 / trace / 日志"
+    },
+    {
+      "id": "report",
+      "lane": "verification",
+      "col": 5,
+      "type": "frontend",
+      "label": "交付报告",
+      "sublabel": "结果 + 覆盖 + 未验边界"
+    },
+    {
+      "id": "bifrost",
+      "lane": "isolation",
+      "col": 2,
+      "type": "messagebus",
+      "label": "Bifrost",
+      "sublabel": "接口 Mock + 流量命中"
+    }
+  ],
+  "edges": [
+    {
+      "id": "scope-cases",
+      "from": "expectation",
+      "to": "cases",
+      "role": "main"
+    },
+    {
+      "id": "cases-ui",
+      "from": "cases",
+      "to": "midscene",
+      "role": "main"
+    },
+    {
+      "id": "ui-assert",
+      "from": "midscene",
+      "to": "assertions",
+      "role": "main"
+    },
+    {
+      "id": "assert-evidence",
+      "from": "assertions",
+      "to": "evidence",
+      "role": "main"
+    },
+    {
+      "id": "evidence-report",
+      "from": "evidence",
+      "to": "report",
+      "role": "main"
+    },
+    {
+      "id": "cases-mock",
+      "from": "cases",
+      "to": "bifrost",
+      "label": "需要 Mock",
+      "role": "branch"
+    },
+    {
+      "id": "mock-ui",
+      "from": "bifrost",
+      "to": "midscene",
+      "label": "隔离请求",
+      "role": "branch"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "按范围调用能力",
+      "items": [
+        "单状态可直接截图；需要过程再跑交互",
+        "沿用项目框架、组件环境与已有测试"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "每个结论都保留边界",
+      "items": [
+        "PASS / FAIL / BLOCKED / NOT RUN",
+        "缺工具提醒安装；Mock 通过不等于后端通过"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,157 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "From requirements to evidence",
+    "locale": "en",
+    "quality_profile": "showcase"
+  },
+  "lanes": [
+    {
+      "id": "verification",
+      "label": "Verification"
+    },
+    {
+      "id": "isolation",
+      "label": "API isolation"
+    }
+  ],
+  "mainPath": [
+    "expectation",
+    "cases",
+    "midscene",
+    "assertions",
+    "evidence",
+    "report"
+  ],
+  "nodes": [
+    {
+      "id": "expectation",
+      "lane": "verification",
+      "col": 0,
+      "type": "external",
+      "label": "Expectations",
+      "sublabel": "Spec / design / user request",
+      "width": 160
+    },
+    {
+      "id": "cases",
+      "lane": "verification",
+      "col": 1,
+      "type": "backend",
+      "label": "Cases",
+      "sublabel": "Stable IDs + pass criteria",
+      "width": 160
+    },
+    {
+      "id": "midscene",
+      "lane": "verification",
+      "col": 2,
+      "type": "frontend",
+      "label": "Midscene",
+      "sublabel": "Interactions + visual checks",
+      "width": 160
+    },
+    {
+      "id": "assertions",
+      "lane": "verification",
+      "col": 3,
+      "type": "backend",
+      "label": "Exact assertions",
+      "sublabel": "Payload / IDs / count / state",
+      "width": 160
+    },
+    {
+      "id": "evidence",
+      "lane": "verification",
+      "col": 4,
+      "type": "database",
+      "label": "Evidence",
+      "sublabel": "Screenshots / trace / logs",
+      "width": 160
+    },
+    {
+      "id": "report",
+      "lane": "verification",
+      "col": 5,
+      "type": "frontend",
+      "label": "Report",
+      "sublabel": "Verdicts + coverage + limits",
+      "width": 160
+    },
+    {
+      "id": "bifrost",
+      "lane": "isolation",
+      "col": 2,
+      "type": "messagebus",
+      "label": "Bifrost",
+      "sublabel": "API mocks + traffic hits",
+      "width": 160,
+      "yOffset": 30
+    }
+  ],
+  "edges": [
+    {
+      "id": "scope-cases",
+      "from": "expectation",
+      "to": "cases",
+      "role": "main"
+    },
+    {
+      "id": "cases-ui",
+      "from": "cases",
+      "to": "midscene",
+      "role": "main"
+    },
+    {
+      "id": "ui-assert",
+      "from": "midscene",
+      "to": "assertions",
+      "role": "main"
+    },
+    {
+      "id": "assert-evidence",
+      "from": "assertions",
+      "to": "evidence",
+      "role": "main"
+    },
+    {
+      "id": "evidence-report",
+      "from": "evidence",
+      "to": "report",
+      "role": "main"
+    },
+    {
+      "id": "cases-mock",
+      "from": "cases",
+      "to": "bifrost",
+      "label": "Needs mock",
+      "role": "branch"
+    },
+    {
+      "id": "mock-ui",
+      "from": "bifrost",
+      "to": "midscene",
+      "label": "Isolate requests",
+      "role": "branch"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Choose the requested scope",
+      "items": [
+        "One visible state: capture and inspect",
+        "Reuse the project framework and existing tests"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Keep the boundaries visible",
+      "items": [
+        "PASS / FAIL / BLOCKED / NOT RUN",
+        "Missing tools: installation prompt; mock is not real backend"
+      ]
+    }
+  ]
+}

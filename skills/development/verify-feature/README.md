@@ -1,209 +1,98 @@
 <p align="center">
-  <img src="docs/hero.svg" alt="Verify Feature — Your AI says done. Ask for evidence." width="100%">
+  <img src="docs/hero-imagegen.png" alt="Verify Feature: Your AI says done. Ask for evidence." width="100%">
 </p>
 
-<h1 align="center">Verify Feature</h1>
-<p align="center"><strong>Your AI says “done.” Ask for evidence.</strong></p>
-<p align="center">A frontend verification skill for coding agents.<br>Midscene for interactions. Bifrost for mocks. Evidence for the verdict.</p>
+# Verify Feature
 
-<p align="center">
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-86efac?style=flat-square" alt="MIT license"></a>
-  <a href="https://agentskills.io/specification"><img src="https://img.shields.io/badge/Agent_Skills-open_standard-93c5fd?style=flat-square" alt="Agent Skills format"></a>
-  <a href="https://github.com/baichen99/skills/actions/workflows/verify-feature.yml"><img src="https://github.com/baichen99/skills/actions/workflows/verify-feature.yml/badge.svg" alt="Package checks"></a>
-</p>
+A skill for checking frontend features from a coding agent. It uses Midscene for browser interactions, Bifrost for API mocks, and deterministic assertions for values such as request payloads and submission counts. Results go into a Markdown report with links to screenshots, traces, and logs.
 
-<p align="center">English · <a href="README.zh-CN.md">简体中文</a><br><a href="#install">Install</a> · <a href="#try-it">Try it</a> · <a href="#what-you-get">What you get</a> · <a href="docs/example-report.md">Report example</a></p>
+[简体中文](README.zh-CN.md) · [Setup](references/setup.md) · [Report example](docs/example-report.md)
 
----
-
-## “The build passes” is where verification starts.
-
-The form renders. The request returns 200. The toast says “Saved.”
-
-But did the input survive a failed request? Did retry submit twice?
-Does the value survive a reload?
-
-**Verify Feature teaches your coding agent to answer those questions with actual execution and linked evidence.** It connects the requirement to a case, the case to a check, and the check to what really happened.
-
-```text
-Requirement  →  Case  →  Execute  →  Inspect  →  Report
-                                              ├─ PASS
-                                              ├─ FAIL
-                                              ├─ BLOCKED
-                                              └─ NOT RUN
-```
+[![Package checks](https://github.com/baichen99/skills/actions/workflows/verify-feature.yml/badge.svg)](https://github.com/baichen99/skills/actions/workflows/verify-feature.yml)
+[![MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 ## Install
 
-From your frontend project, use the [Skills CLI](https://github.com/vercel-labs/skills):
+Run from your project directory:
 
 ```sh
-npx skills add baichen99/skills --skill verify-feature
+npx skills@latest add baichen99/skills --skill verify-feature
 ```
 
-Choose your agent when prompted. The CLI currently requires Node.js 22.20+;
-installation is project-scoped by default. Review third-party CLI code as you would
-any installer. For manual installation, clone or download this repository and copy
-the **entire** `skills/development/verify-feature/` folder to one of these locations:
+Select your agent when prompted. The [Skills CLI](https://github.com/vercel-labs/skills) requires Node.js 22.20+ and installs to the current project by default.
 
-| Agent | Destination relative to your project root | Invoke |
+For manual installation, copy the entire `skills/development/verify-feature/` directory from this repository to the appropriate location. Keep its references, scripts, and templates together.
+
+| Agent | Project directory | Invocation |
 | --- | --- | --- |
-| Codex | `.agents/skills/verify-feature/` | `$verify-feature` |
-| Claude Code | `.claude/skills/verify-feature/` | `/verify-feature` |
-| Cursor | `.cursor/skills/verify-feature/` | `/verify-feature` |
+| [Codex](https://learn.chatgpt.com/docs/build-skills) | `.agents/skills/verify-feature/` | `$verify-feature` |
+| [Claude Code](https://code.claude.com/docs/en/skills) | `.claude/skills/verify-feature/` | `/verify-feature` |
+| [Cursor](https://cursor.com/docs/skills) | `.cursor/skills/verify-feature/` | `/verify-feature` |
 
-Use an empty destination; do not overwrite an existing skill. Reload/restart your
-agent if the skill does not appear. These paths follow the official
-[Codex](https://learn.chatgpt.com/docs/build-skills),
-[Claude Code](https://code.claude.com/docs/en/skills), and
-[Cursor](https://cursor.com/docs/skills) documentation. Other agents can use the
-[Agent Skills format](https://agentskills.io/specification) or read [SKILL.md](SKILL.md)
-and its linked references directly.
+Use an empty destination. Restart the agent if the skill does not appear. Other tools that load the [Agent Skills format](https://agentskills.io/specification) can read the same directory.
 
-## Set up Midscene and Bifrost
+## Setup
 
-Both are part of the workflow and installed separately:
+| Tool | Used for |
+| --- | --- |
+| [Midscene](https://midscenejs.com/) | Browser interactions and visual checks. Requires model access. |
+| [Bifrost](https://github.com/bifrost-proxy/bifrost) | API mocks and traffic capture. Requires the CLI and its agent skill. |
+| Python 3.9+ (optional) | Checking local links in the report. No Python packages to install. |
 
-| Tool | Role | If missing |
-| --- | --- | --- |
-| [Midscene](https://midscenejs.com/) | Browser interactions and visual/semantic checks | The agent points you to dependency and model setup |
-| [Bifrost](https://github.com/bifrost-proxy/bifrost) | API mocking, scoped proxy rules, traffic evidence | The agent points you to CLI and agent-skill installation |
+The skill checks for missing tools and provides installation instructions. It leaves dependent cases blocked until setup is ready, while independent checks can continue. See the [setup guide](references/setup.md) for commands and model configuration. Model calls may incur costs.
 
-Follow the [setup guide](references/setup.md). The skill checks readiness and
-prompts you to install what is missing. It does not silently run installers or
-change your machine's proxy settings. Independent checks can continue while
-cases requiring a missing tool stay blocked. Existing deterministic tests remain
-useful and keep their actual tool labels.
+## Usage
 
-## Try it
-
-Paste a task after invoking the skill. Be specific about the outcome you expect.
-
-**Check one interaction**
+Invoke the skill, then describe the page and the expected behavior:
 
 ```text
 Verify the profile form at http://localhost:3000/settings.
-When saving fails, keep my input and show an error. Retrying should submit
-once and update the page. Use the project's existing test tools and mocks.
-Give me the result with evidence.
+
+- A failed save must keep the entered values and show an error.
+- Clicking retry once must send one request.
+- After a successful save, reloading must show the new values.
+
+Use Midscene for interactions and Bifrost for the API scenarios.
+Keep the existing component and request code running.
+Report the results with evidence. Do not modify product code.
 ```
 
-**Compare one screenshot**
+You can also ask for a single screenshot comparison, a component check, or mock configuration only. A spec, issue, design reference, or clear expectation in your message supplies the acceptance criteria.
 
-```text
-Check the checkout page at 390 × 844 against the attached design.
-Focus on spacing, button visibility, and overflow. Capture and inspect
-the screenshot, then explain each mismatch.
-```
+The workflow follows your project's framework and test setup. Existing Playwright, Cypress, component tests, and mocks can stay in place. New process checks use Midscene; new proxy mock tasks use Bifrost.
 
-**Accept a feature**
+## Workflow
 
-```text
-Verify the cart against acceptance criteria AC-1 through AC-6 in the issue.
-Use the actual application with a mocked backend. Include empty state,
-failed update, retry, and reload. Report every required case, including
-anything blocked or not run. Do not modify product code.
-```
+![Frontend verification with Midscene, Bifrost, assertions and evidence](docs/workflow.en.svg)
 
-No spec document? A clear expectation in your message is enough for a bounded
-check. No browser or runner? You get the missing prerequisite and unexecuted
-cases; the agent must not turn a plan into a pass.
+[Download the interactive diagram](docs/workflow.en.html) and open it locally to switch themes, zoom, or export. The [JSON source](docs/workflow.en.json) is included.
 
-## What you get
+## Reports
 
-An inspectable Markdown result, scaled to the task. For full acceptance:
+A full acceptance report records each requirement, its case ID, the check performed, expected and observed behavior, and links to the generated evidence. Cases use four states:
 
-| In the report | Why it matters |
+| State | Meaning |
 | --- | --- |
-| Requirement → case → test mapping | You can see what was covered and what was missed |
-| Expected vs. observed behavior | The verdict has an explicit basis |
-| Screenshot, trace, video, or log links | Another person can inspect the evidence |
-| Revision, environment, backend mode | A pass belongs to a particular run |
-| Failed, blocked, and not-run cases | Gaps remain visible |
-| Failed run and retry kept separately | A rerun does not erase the failure |
+| PASS | The check ran and met the stated expectation. |
+| FAIL | An expectation failed or a tool error invalidated the check. |
+| BLOCKED | A missing prerequisite prevented execution. |
+| NOT RUN | The case was not executed or has not been evaluated. |
 
-Example excerpt below is **illustrative, not a recorded test run**:
+Reports also record the application revision, entry URL, environment, and backend mode. Failed runs and retries remain separate. Frontend checks with a mocked backend do not verify the real backend.
 
-| Requirement | Case | Result | Observation |
-| --- | --- | --- | --- |
-| Failed save preserves input | VF-01 | FAIL | The typed name disappeared after a 500 response |
-| Retry submits once | VF-02 | PASS | One request after one retry click |
-| Value survives reload | VF-03 | BLOCKED | Persistent mock state was not available |
+See the [report template](assets/report.md), [case template](assets/case.md), and [annotated example](docs/example-report.md). The example is fictional and is labeled as such.
 
-See the [annotated report example](docs/example-report.md),
-[report template](assets/report.md), and [case template](assets/case.md).
-Real reports link actual artifacts; the example invents no screenshots or logs.
+## Development
 
-## Your stack stays your stack
-
-**React. Vue. Svelte. Angular. Web Components. Plain HTML.**
-
-The workflow discovers your project; it does not prescribe a framework.
-Component checks use your real components, providers, router, and styles.
-Integration checks enter through your actual application. SSR and server-side
-requests are treated at their real boundaries.
-
-| Already using… | The skill's approach |
-| --- | --- |
-| Playwright / Cypress / WebdriverIO | Reuse runners, fixtures, and assertions |
-| Testing Library / Storybook / TestBed | Reuse component setup; use a browser for layout claims |
-| MSW / request interception / a mock server | Reuse contracts, state transitions, and reset behavior |
-| Midscene | Reuse fixtures/models for new interaction checks; assert exact values separately |
-| Bifrost | Use scoped mock rules and verify actual traffic hits |
-| A project-specific platform or proxy | Follow documented local conventions; no internal platform is built in |
-
-These are supported workflow choices, **not a claim of tested integration with
-every version**. Execution depends on your agent's tools and project environment.
-
-## What makes the verdict useful
-
-- **Expectations come first.** The current implementation cannot define its own passing criteria.
-- **Screenshots get inspected.** Capturing an image is a separate step from judging it.
-- **Process claims require a process.** A final screenshot cannot prove retry or persistence.
-- **Mock boundaries stay explicit.** Frontend success with mocks does not establish backend correctness.
-- **Small tasks stay small.** One screenshot does not require a spec rewrite, a test platform migration, or a dashboard.
-- **No fictional execution.** Missing prerequisites and unexecuted cases stay visible.
-
-## Requirements and limits
-
-This is an instruction-based skill with references and templates. It does not
-bundle a browser, test runner, model API, or backend. Use an agent with repository
-access and the execution/inspection tools needed for your task. Midscene requires configured model access, which may incur model costs. Bifrost
-requires its CLI and agent skill. See the [setup guide](references/setup.md);
-credentials are configured by the user and never bundled.
-
-The included report-link checker uses Python 3.9+ and the standard library:
-
-```sh
-python3 <skill-directory>/scripts/check_report_links.py path/to/report.md
-```
-
-It checks supported local links and Markdown anchors. It does not validate test
-results or remote access; parser limits are documented in [reporting guidance](references/reporting.md).
-If Python is unavailable, the agent can inspect links with its available tools.
-
-The skill asks agents to preserve evidence and report honestly; **it cannot
-guarantee agent compliance, detect every bug, or certify release readiness**.
-Use normal engineering review. Review traces, screenshots, and payloads for
-private data before sharing them. Verification does not itself authorize
-production writes or deployment.
-
-## Contribute
-
-Bring a real verification failure: the expected behavior, what the agent actually
-did, its runner/framework, and a minimal redacted reproduction. An issue showing
-a missed case is more useful than another generic checklist.
-
-To check this package locally:
+From this skill's directory:
 
 ```sh
 python3 -m unittest discover -s tests -v
 python3 scripts/check_package.py
 ```
 
-These check the helper and package integrity; they are not cross-agent or
-cross-framework acceptance tests. See [evaluation scenarios](docs/evaluation.md)
-for behavior checks that still require actual agent runs.
+The tests cover the report-link checker and package references. Installation has been smoke-tested with the Codex target; browser verification across framework and agent versions has not been completed. [Evaluation scenarios](docs/evaluation.md) describe the remaining behavior checks.
 
-Licensed under [MIT](LICENSE). If the workflow catches a bug your agent called
-“done,” share a redacted example in an issue.
+For bugs, include the expected behavior, the agent's actual actions, framework and runner versions, and a small redacted reproduction. Review screenshots and traces for private data before attaching them.
+
+[MIT](LICENSE). Diagram assets include the [Archify runtime notice](docs/ARCHIFY-LICENSE.txt). [Visual sources and validation](docs/visuals.md).
