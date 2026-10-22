@@ -1,0 +1,4 @@
+interface:
+  display_name: "Verify Feature"
+  short_description: "Verify frontend behavior with requirements and evidence"
+  default_prompt: "Use $verify-feature to verify the requested frontend scope with Midscene and Bifrost where applicable. Reuse project setup, prompt to install missing tools, and report actual results with evidence links."

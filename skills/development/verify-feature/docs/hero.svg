@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="520" viewBox="0 0 1280 520" role="img" aria-labelledby="title desc">
+  <title id="title">Verify Feature</title>
+  <desc id="desc">Your AI says done. Ask for evidence. Requirements, execution, and evidence in one inspectable workflow.</desc>
+  <rect width="1280" height="520" rx="24" fill="#101820"/>
+  <path d="M0 92H1280M0 428H1280" stroke="#263540"/>
+  <g font-family="ui-monospace, SFMono-Regular, Consolas, monospace">
+    <circle cx="56" cy="47" r="6" fill="#a8e6a1"/>
+    <text x="76" y="54" font-size="17" fill="#a8e6a1" letter-spacing="2">VERIFY FEATURE</text>
+    <text x="1224" y="54" text-anchor="end" font-size="14" fill="#8c9eac">A SKILL FOR FRONTEND DEVELOPERS</text>
+  </g>
+  <g font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-weight="700" font-size="66" letter-spacing="-2">
+    <text x="52" y="198" fill="#f5f5f1">Your AI says done.</text>
+    <text x="52" y="280" fill="#a8e6a1">Ask for evidence.</text>
+  </g>
+  <text x="56" y="340" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="23" fill="#aab9c4">Turn a frontend requirement into a verdict you can inspect.</text>
+  <g transform="translate(925 145)" font-family="ui-monospace, SFMono-Regular, Consolas, monospace">
+    <rect width="300" height="210" rx="12" fill="#192630" stroke="#354955"/>
+    <text x="24" y="39" fill="#8c9eac" font-size="14">RUN / EVIDENCE</text>
+    <path d="M24 58H276" stroke="#354955"/>
+    <text x="24" y="94" fill="#a8e6a1" font-size="16">PASS</text><text x="125" y="94" fill="#d4e0e6" font-size="15">one click</text>
+    <text x="24" y="137" fill="#ffb09f" font-size="16">FAIL</text><text x="125" y="137" fill="#d4e0e6" font-size="15">two requests</text>
+    <text x="24" y="180" fill="#c5cdd4" font-size="16">PROOF</text><text x="125" y="180" fill="#d4e0e6" font-size="15">trace + log</text>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="16" fill="#adbeca">
+    <text x="56" y="481">REQUIREMENT</text><path d="M194 475H253m-7-5 7 5-7 5" stroke="#a8e6a1" fill="none"/>
+    <text x="278" y="481">EXECUTION</text><path d="M391 475H450m-7-5 7 5-7 5" stroke="#a8e6a1" fill="none"/>
+    <text x="475" y="481">EVIDENCE</text>
+    <text x="1224" y="481" text-anchor="end" fill="#8c9eac">YOUR FRAMEWORK. YOUR TOOLS.</text>
+  </g>
+</svg>
