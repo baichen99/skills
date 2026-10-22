@@ -8,6 +8,8 @@ A skill for checking frontend features from a coding agent. It uses Midscene for
 
 Each requirement maps to a case, a check, a result, and its evidence. A successful build, HTTP 200, or success message alone cannot establish that the whole feature works.
 
+Watch on Bilibili (Chinese): [Landscape](https://www.bilibili.com/video/BV1kLn16HEum/) · [Portrait](https://www.bilibili.com/video/BV1rJn16UE8c/). Both are workflow animations, not recordings of actual toolchain verification.
+
 [简体中文](README.zh-CN.md) · [Setup](references/setup.md) · [Report example](docs/example-report.md)
 
 [![Package checks](https://github.com/baichen99/skills/actions/workflows/verify-feature.yml/badge.svg)](https://github.com/baichen99/skills/actions/workflows/verify-feature.yml)

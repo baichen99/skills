@@ -12,6 +12,8 @@
 
 让编程助手按需求检查前端功能，并交付能逐项查看的证据：需求 → 用例 → 检查 → 结果与证据。用 Midscene 操作页面、[Bifrost](https://github.com/bifrost-proxy/bifrost) 模拟接口，把实际结果与截图、trace、日志写进 Markdown 报告。
 
+B 站视频：[横屏版](https://www.bilibili.com/video/BV1kLn16HEum/) · [竖屏版](https://www.bilibili.com/video/BV1rJn16UE8c/)。两版均为流程动画示意，并非完整工具链的实测录像。
+
 ```sh
 npx skills@latest add baichen99/skills --skill verify-feature
 ```

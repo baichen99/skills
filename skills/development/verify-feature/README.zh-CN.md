@@ -8,6 +8,8 @@
 
 每条需求都能追到对应的用例、检查、结果和证据。构建成功、接口返回 200 或出现成功提示，都不能单独证明完整功能可用。
 
+B 站视频：[横屏版](https://www.bilibili.com/video/BV1kLn16HEum/) · [竖屏版](https://www.bilibili.com/video/BV1rJn16UE8c/)。两版均为流程动画示意，并非完整工具链的实测录像。
+
 [English](README.md) · [工具安装](references/setup.md) · [报告示例](docs/example-report.md)
 
 [![包检查](https://github.com/baichen99/skills/actions/workflows/verify-feature.yml/badge.svg)](https://github.com/baichen99/skills/actions/workflows/verify-feature.yml)

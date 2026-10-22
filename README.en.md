@@ -10,6 +10,8 @@ Agent Skills for frontend verification and technical writing. Each skill has its
 
 Ask your coding agent to check a frontend feature against its requirements and show the evidence: requirement → case → check → result and evidence. Midscene handles browser interactions; [Bifrost](https://github.com/bifrost-proxy/bifrost) provides API mocks. Results and links to screenshots, traces, and logs go into a Markdown report.
 
+Watch on Bilibili (Chinese): [Landscape](https://www.bilibili.com/video/BV1kLn16HEum/) · [Portrait](https://www.bilibili.com/video/BV1rJn16UE8c/). Both are workflow animations, not recordings of actual toolchain verification.
+
 ```sh
 npx skills@latest add baichen99/skills --skill verify-feature
 ```
