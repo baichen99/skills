@@ -10,15 +10,22 @@
   <a href="skills/development/verify-feature/README.zh-CN.md"><img src="skills/development/verify-feature/docs/hero-imagegen.png" alt="Verify Feature：AI 说做完了，拿什么证明？" width="100%"></a>
 </p>
 
-检查前端截图、组件行为和完整业务流程。用 Midscene 操作页面、Bifrost 模拟接口，把实际结果与截图、trace、日志写进 Markdown 报告。缺少工具时会给出安装提示。
+让编程助手按需求检查前端功能，并交付能逐项查看的证据：需求 → 用例 → 检查 → 结果与证据。用 Midscene 操作页面、[Bifrost](https://github.com/bifrost-proxy/bifrost) 模拟接口，把实际结果与截图、trace、日志写进 Markdown 报告。
 
 ```sh
 npx skills@latest add baichen99/skills --skill verify-feature
 ```
 
-调用 `$verify-feature`（Codex）或 `/verify-feature`（Claude Code / Cursor），然后描述预期：
+这条命令安装 skill；运行页面交互和接口 Mock 还需准备 Midscene 模型访问与 Bifrost，见[工具安装](skills/development/verify-feature/references/setup.md)。缺少工具时会给出安装提示，并标明哪些检查尚未执行。
 
-> 验证个人资料表单：保存失败保留输入；点击一次重试只提交一次；保存成功后刷新仍能读到修改。使用 Mock 后端，交付实际结果与证据，不修改业务代码。
+启动目标页面后，在项目中打开 Codex，替换地址并发送下面这段。Claude Code / Cursor 把第一行改为 `/verify-feature`：
+
+```text
+$verify-feature
+验证 http://localhost:3000/settings 的个人资料表单：
+保存失败保留输入；点击一次重试只提交一次；保存成功后刷新仍能读到修改。
+使用 Mock 后端，交付每项预期的实际结果与证据，不修改业务代码。
+```
 
 [中文文档](skills/development/verify-feature/README.zh-CN.md) · [English](skills/development/verify-feature/README.md) · [工具安装](skills/development/verify-feature/references/setup.md) · [报告示例](skills/development/verify-feature/docs/example-report.md)
 

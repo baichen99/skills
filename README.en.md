@@ -8,16 +8,20 @@ Agent Skills for frontend verification and technical writing. Each skill has its
 
 [![Verify Feature: Your AI says done. Ask for evidence.](skills/development/verify-feature/docs/hero-imagegen.png)](skills/development/verify-feature/README.md)
 
-Check screenshots, component behavior, and frontend workflows with Midscene and Bifrost. Get a Markdown report containing the results and links to screenshots, traces, and logs. Missing tools produce installation instructions.
+Ask your coding agent to check a frontend feature against its requirements and show the evidence: requirement → case → check → result and evidence. Midscene handles browser interactions; [Bifrost](https://github.com/bifrost-proxy/bifrost) provides API mocks. Results and links to screenshots, traces, and logs go into a Markdown report.
 
 ```sh
 npx skills@latest add baichen99/skills --skill verify-feature
 ```
 
-Invoke `$verify-feature` in Codex or `/verify-feature` in Claude Code or Cursor, then describe the expected behavior:
+The command installs the skill. Browser interactions and API mocks also need Midscene model access and Bifrost; follow the [setup guide](skills/development/verify-feature/references/setup.md). Missing tools produce installation instructions, and checks that could not run stay visible.
+
+Start your app, open Codex in the project, replace the URL, and send this prompt. In Claude Code or Cursor, change the first line to `/verify-feature`:
 
 ```text
-Verify the profile form. A failed save must preserve input. One retry click
+$verify-feature
+Verify the profile form at http://localhost:3000/settings.
+A failed save must preserve input. One retry click
 must send one request. After success, reloading must show the new values.
 Use a mocked backend. Report the results with evidence. Do not modify product code.
 ```

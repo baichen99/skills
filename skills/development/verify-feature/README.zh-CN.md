@@ -6,6 +6,8 @@
 
 供编程助手使用的前端验证 skill。用 Midscene 操作页面，Bifrost 模拟接口，再用精确断言检查请求参数、提交次数等结果。验证结束后生成 Markdown 报告，附上截图、trace 和日志链接。
 
+每条需求都能追到对应的用例、检查、结果和证据。构建成功、接口返回 200 或出现成功提示，都不能单独证明完整功能可用。
+
 [English](README.md) · [工具安装](references/setup.md) · [报告示例](docs/example-report.md)
 
 [![包检查](https://github.com/baichen99/skills/actions/workflows/verify-feature.yml/badge.svg)](https://github.com/baichen99/skills/actions/workflows/verify-feature.yml)
@@ -20,6 +22,8 @@ npx skills@latest add baichen99/skills --skill verify-feature
 ```
 
 按提示选择编程助手。[Skills CLI](https://github.com/vercel-labs/skills) 要求 Node.js 22.20+，默认安装到当前项目。
+
+这条命令安装的是 skill 文档、模板与辅助脚本。页面交互和接口 Mock 所需的 Midscene、模型访问与 Bifrost 需按下方[工具准备](#工具准备)配置。
 
 手动安装时，把本仓库的 `skills/development/verify-feature/` 整个目录复制到对应位置，保留其中的参考文档、脚本和模板。
 
@@ -43,9 +47,10 @@ npx skills@latest add baichen99/skills --skill verify-feature
 
 ## 使用
 
-调用 skill 后，说明要检查的页面和预期行为：
+启动目标页面后，在项目中打开 Codex，替换地址并发送下面这段。Claude Code / Cursor 把第一行改为 `/verify-feature`：
 
 ```text
+$verify-feature
 验证 http://localhost:3000/settings 的个人资料表单。
 
 - 保存失败后保留已填写的内容，并显示错误。

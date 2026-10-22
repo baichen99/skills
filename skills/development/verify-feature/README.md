@@ -6,6 +6,8 @@
 
 A skill for checking frontend features from a coding agent. It uses Midscene for browser interactions, Bifrost for API mocks, and deterministic assertions for values such as request payloads and submission counts. Results go into a Markdown report with links to screenshots, traces, and logs.
 
+Each requirement maps to a case, a check, a result, and its evidence. A successful build, HTTP 200, or success message alone cannot establish that the whole feature works.
+
 [简体中文](README.zh-CN.md) · [Setup](references/setup.md) · [Report example](docs/example-report.md)
 
 [![Package checks](https://github.com/baichen99/skills/actions/workflows/verify-feature.yml/badge.svg)](https://github.com/baichen99/skills/actions/workflows/verify-feature.yml)
@@ -20,6 +22,8 @@ npx skills@latest add baichen99/skills --skill verify-feature
 ```
 
 Select your agent when prompted. The [Skills CLI](https://github.com/vercel-labs/skills) requires Node.js 22.20+ and installs to the current project by default.
+
+This command installs skill instructions, templates, and helper scripts. Browser interactions and API mocks also need Midscene, model access, and Bifrost; see [Setup](#setup) below.
 
 For manual installation, copy the entire `skills/development/verify-feature/` directory from this repository to the appropriate location. Keep its references, scripts, and templates together.
 
@@ -43,9 +47,10 @@ The skill checks for missing tools and provides installation instructions. It le
 
 ## Usage
 
-Invoke the skill, then describe the page and the expected behavior:
+Start your app, open Codex in the project, replace the URL, and send this prompt. In Claude Code or Cursor, change the first line to `/verify-feature`:
 
 ```text
+$verify-feature
 Verify the profile form at http://localhost:3000/settings.
 
 - A failed save must keep the entered values and show an error.
